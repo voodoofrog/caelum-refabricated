@@ -1,0 +1,17 @@
+{
+  "required": true,
+  "package": "net.jmb19905.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "DimensionTypeMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "client": [
+    "ClientLevelMixin",
+    "FogRendererMixin",
+    "LevelRendererMixin",
+    "MinecraftMixin"
+  ]
+}
