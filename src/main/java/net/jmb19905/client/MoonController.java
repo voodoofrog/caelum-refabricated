@@ -1,16 +1,30 @@
 package net.jmb19905.client;
 
-import net.jmb19905.config.ClientConfig;
+import net.jmb19905.config.CommonConfig;
+import org.apache.commons.lang3.concurrent.ConcurrentException;
+import org.apache.commons.lang3.concurrent.LazyInitializer;
 
 public record MoonController(long initialPosition, long orbitPeriod, int phases) {
-    public static MoonController MOON = new MoonController(0, ClientConfig.lunarOrbitPeriod.get(), 8);
+    private static final LazyInitializer<MoonController> MOON = new LazyInitializer<>() {
+        @Override
+        protected MoonController initialize() {
+            return new MoonController(0, CommonConfig.lunarOrbitPeriod.get(), 8);
+        }
+    };
 
     public float getMoonOrbitPosition(long gameTime) {
         return ((gameTime+initialPosition) % orbitPeriod)/(float)orbitPeriod;
     }
 
-    public int getMoonPhase(long gameTime) {
+    public static MoonController getInstance() {
+        try {
+            return MOON.get();
+        } catch (ConcurrentException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
+    public int getMoonPhase(long gameTime) {
         double orbitTime = getMoonOrbitPosition(gameTime);
         double eighth = 1/8d;
 

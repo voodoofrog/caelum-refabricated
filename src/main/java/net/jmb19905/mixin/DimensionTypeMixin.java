@@ -12,6 +12,6 @@ public class DimensionTypeMixin {
     @Inject(at = @At("HEAD"), method = "moonPhase(J)I", cancellable = true)
     private void inject$moonPhase(long time, CallbackInfoReturnable<Integer> cir) {
         cir.cancel();
-        cir.setReturnValue(MoonController.MOON.getMoonPhase(time));
+        cir.setReturnValue(MoonController.getInstance().getMoonPhase(time));
     }
 }

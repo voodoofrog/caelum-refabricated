@@ -94,7 +94,7 @@ public class LevelRendererMixin {
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/multiplayer/ClientLevel;getMoonPhase()I"), method = "renderSky(Lcom/mojang/blaze3d/vertex/PoseStack;Lorg/joml/Matrix4f;FLnet/minecraft/client/Camera;ZLjava/lang/Runnable;)V")
     private void renderSky$renderMoon$Pre(PoseStack p_202424_, Matrix4f p_254034_, float p_202426_, Camera p_202427_, boolean p_202428_, Runnable p_202429_, CallbackInfo ci) {
         assert level != null;
-        p_202424_.mulPose(Axis.XP.rotation(-MoonController.MOON.getMoonOrbitPosition(level.getDayTime()) * Mth.TWO_PI));
+        p_202424_.mulPose(Axis.XP.rotation(-MoonController.getInstance().getMoonOrbitPosition(level.getDayTime()) * Mth.TWO_PI));
         p_202424_.mulPose(Axis.YP.rotationDegrees(90));
         int phase = this.level.getMoonPhase();
         if(phase == 4){
@@ -105,7 +105,7 @@ public class LevelRendererMixin {
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/multiplayer/ClientLevel;getStarBrightness(F)F"), method = "renderSky(Lcom/mojang/blaze3d/vertex/PoseStack;Lorg/joml/Matrix4f;FLnet/minecraft/client/Camera;ZLjava/lang/Runnable;)V")
     private void renderSky$renderMoon$Post(PoseStack p_202424_, Matrix4f p_254034_, float p_202426_, Camera p_202427_, boolean p_202428_, Runnable p_202429_, CallbackInfo ci) {
         assert level != null;
-        p_202424_.mulPose(Axis.XP.rotation(MoonController.MOON.getMoonOrbitPosition(level.getDayTime()) * Mth.TWO_PI));
+        p_202424_.mulPose(Axis.XP.rotation(MoonController.getInstance().getMoonOrbitPosition(level.getDayTime()) * Mth.TWO_PI));
         p_202424_.mulPose(Axis.YP.rotationDegrees(-90));
     }
 

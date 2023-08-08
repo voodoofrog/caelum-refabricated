@@ -1,6 +1,9 @@
 package net.jmb19905;
 
+import fuzs.forgeconfigapiport.api.config.v2.ForgeConfigRegistry;
 import net.fabricmc.api.ModInitializer;
+import net.jmb19905.config.ConfigHelper;
+import net.minecraftforge.fml.config.ModConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,6 +14,6 @@ public class Caelum implements ModInitializer {
 
     @Override
     public void onInitialize() {
-
+        ForgeConfigRegistry.INSTANCE.register(Caelum.MOD_ID, ModConfig.Type.COMMON, ConfigHelper.commonConfig);
     }
 }

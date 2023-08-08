@@ -3,7 +3,6 @@ package net.jmb19905.config;
 import net.minecraftforge.common.ForgeConfigSpec;
 
 public class ClientConfig {
-    public static ForgeConfigSpec.LongValue lunarOrbitPeriod;
     public static ForgeConfigSpec.LongValue earthOrbitPeriod;
     public static ForgeConfigSpec.EnumValue<StarsType> starsType;
     public static ForgeConfigSpec.EnumValue<LatitudeEffects> latitudeEffects;
@@ -19,7 +18,6 @@ public class ClientConfig {
 
 
     public static void init(ForgeConfigSpec.Builder client) {
-        lunarOrbitPeriod = client.comment("How long does it take for the Moon to complete its orbit in ticks.").defineInRange("moon.orbit_period",708734L, 1, Long.MAX_VALUE);
         earthOrbitPeriod = client.comment("How long does it take for the Earth to complete its orbit in ticks.").defineInRange("earth.orbit_period",8765812L, 0, Long.MAX_VALUE);
         starsType = client.comment("What stars to use").defineEnum("stars.stars_type", StarsType.CUSTOM, StarsType.values());
         latitudeEffects = client.comment("What should be affected by the camera latitude (the z coordinate)").defineEnum("latitude.latitude_effects", LatitudeEffects.ALL, LatitudeEffects.values());
