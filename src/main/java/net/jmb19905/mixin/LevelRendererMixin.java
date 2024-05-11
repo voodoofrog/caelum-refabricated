@@ -4,7 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexBuffer;
 import com.mojang.math.Axis;
-import net.jmb19905.client.MoonController;
+import net.jmb19905.common.MoonController;
 import net.jmb19905.client.SkyUtils;
 import net.jmb19905.config.*;
 import net.jmb19905.client.data.StarDataManager;
@@ -93,6 +93,7 @@ public class LevelRendererMixin {
     }
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/multiplayer/ClientLevel;getMoonPhase()I"), method = "renderSky(Lcom/mojang/blaze3d/vertex/PoseStack;Lorg/joml/Matrix4f;FLnet/minecraft/client/Camera;ZLjava/lang/Runnable;)V")
     private void renderSky$renderMoon$Pre(PoseStack p_202424_, Matrix4f p_254034_, float p_202426_, Camera p_202427_, boolean p_202428_, Runnable p_202429_, CallbackInfo ci) {
+        if (CommonConfig.moonOrbitType.get() == MoonOrbitType.VANILLA) return;
         assert level != null;
         p_202424_.mulPose(Axis.XP.rotation(-MoonController.getInstance().getMoonOrbitPosition(level.getDayTime()) * Mth.TWO_PI));
         p_202424_.mulPose(Axis.YP.rotationDegrees(90));

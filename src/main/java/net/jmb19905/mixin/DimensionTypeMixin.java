@@ -1,6 +1,8 @@
 package net.jmb19905.mixin;
 
-import net.jmb19905.client.MoonController;
+import net.jmb19905.common.MoonController;
+import net.jmb19905.config.CommonConfig;
+import net.jmb19905.config.MoonOrbitType;
 import net.minecraft.world.level.dimension.DimensionType;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -12,6 +14,10 @@ public class DimensionTypeMixin {
     @Inject(at = @At("HEAD"), method = "moonPhase(J)I", cancellable = true)
     private void inject$moonPhase(long time, CallbackInfoReturnable<Integer> cir) {
         cir.cancel();
-        cir.setReturnValue(MoonController.getInstance().getMoonPhase(time));
+        if (CommonConfig.moonOrbitType.get() == MoonOrbitType.CUSTOM) {
+            cir.setReturnValue(MoonController.getInstance().getMoonPhase(time));
+        } else {
+            cir.setReturnValue((int)(time / 24000L % 8L + 8L) % 8);
+        }
     }
 }

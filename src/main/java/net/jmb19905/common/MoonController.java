@@ -1,4 +1,4 @@
-package net.jmb19905.client;
+package net.jmb19905.common;
 
 import net.jmb19905.config.CommonConfig;
 import org.apache.commons.lang3.concurrent.ConcurrentException;
