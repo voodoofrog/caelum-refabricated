@@ -3,7 +3,7 @@
 	"id": "caelum",
 	"version": "${version}",
 	"name": "Caelum Refabricated",
-    "description": "More realistic (and configurable) celestial bodies movement.",
+        "description": "More realistic (and configurable) celestial bodies movement.",
 	"authors": [
 		"jmb19905"
 	],
