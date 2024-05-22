@@ -12,6 +12,7 @@
     "ClientLevelMixin",
     "FogRendererMixin",
     "LevelRendererMixin",
-    "MinecraftMixin"
+    "MinecraftMixin",
+    "IrisCelestialUniformsMixin"
   ]
 }

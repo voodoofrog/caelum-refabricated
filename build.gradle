@@ -16,7 +16,10 @@ repositories {
 		url = "https://raw.githubusercontent.com/Fuzss/modresources/main/maven/"
 	}
 	maven {
-		url = "https://api.modrinth.com/maven"
+		url 'https://api.modrinth.com/maven'
+		content {
+			includeGroup("maven.modrinth")
+		}
 	}
 }
 
@@ -28,6 +31,10 @@ dependencies {
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
 	modApi "fuzs.forgeconfigapiport:forgeconfigapiport-fabric:${project.forgeconfigapiport_version}"
+
+	include(implementation("com.moulberry:mixinconstraints:${project.mixinconstraints_version}"))
+	modImplementation "maven.modrinth:sodium:${project.sodium_version}"
+	modImplementation "maven.modrinth:iris:${project.iris_version}"
 }
 
 processResources {
@@ -57,6 +64,7 @@ jar {
 		rename { "${it}_${project.base.archivesName.get()}"}
 	}
 }
+
 
 // configure the maven publication
 publishing {
