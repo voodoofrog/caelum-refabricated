@@ -15,7 +15,7 @@ public class ClientConfig {
     public static ForgeConfigSpec.DoubleValue starBrightness;
     public static ForgeConfigSpec.BooleanValue starColors;
     public static ForgeConfigSpec.DoubleValue starSize;
-
+    public static ForgeConfigSpec.BooleanValue renderNewMoon;
 
     public static void init(ForgeConfigSpec.Builder client) {
         earthOrbitPeriod = client.comment("How long does it take for the Earth to complete its orbit in ticks.").defineInRange("earth.orbit_period",8765812L, 0, Long.MAX_VALUE);
@@ -30,5 +30,6 @@ public class ClientConfig {
         starBrightness = client.comment("Controls the brightness/opacity of the colors.").defineInRange("stars.star_brightness",2, 0, Double.MAX_VALUE);
         starColors = client.comment("Should stars have colors?").define("stars.star_colors",true);
         starSize = client.comment("Controls the size of the (custom) stars").defineInRange("stars.star_size",1, 0, Double.MAX_VALUE);
+        renderNewMoon = client.comment("If the new moon phase should be visible").define("moon.new_moon_visible", true);
     }
 }

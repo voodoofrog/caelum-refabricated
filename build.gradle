@@ -18,6 +18,12 @@ repositories {
 	maven {
 		url = "https://api.modrinth.com/maven"
 	}
+	maven {
+		url "https://maven.flashyreese.me/releases"
+	}
+	maven {
+		url = "https://minecraft.guntram.de/maven/"
+	}
 }
 
 dependencies {
@@ -28,6 +34,10 @@ dependencies {
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
 	modApi "fuzs.forgeconfigapiport:forgeconfigapiport-fabric:${project.forgeconfigapiport_version}"
+
+	modImplementation "maven.modrinth:sodium:mc1.20.1-0.5.8"
+	modImplementation "me.flashyreese.mods:sodium-extra-fabric:0.5.4+mc1.20.1-build.115"
+	modImplementation "maven.modrinth:modmenu:7.2.2"
 }
 
 processResources {
@@ -63,7 +73,8 @@ publishing {
 	publications {
 		//noinspection GroovyAssignabilityCheck
         mavenJava(MavenPublication) {
-			from components.java
+			//noinspection GroovyAssignabilityCheck
+            from components.java
 		}
 	}
 

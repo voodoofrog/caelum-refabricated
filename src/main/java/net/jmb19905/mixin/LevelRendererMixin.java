@@ -80,40 +80,42 @@ public class LevelRendererMixin {
     }
 
     @Redirect(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/DimensionSpecialEffects;getSunriseColor(FF)[F"), method = "renderSky(Lcom/mojang/blaze3d/vertex/PoseStack;Lorg/joml/Matrix4f;FLnet/minecraft/client/Camera;ZLjava/lang/Runnable;)V")
-    private float[] renderSky$getSunriseColor(DimensionSpecialEffects effects, float p_108872_, float p_108873_) {
-        return SkyUtils.getSunriseColor(level, lastCameraZ, p_108873_);
+    private float[] renderSky$getSunriseColor(DimensionSpecialEffects effects, float skyAngle, float partialTicks) {
+        return SkyUtils.getSunriseColor(level, lastCameraZ, partialTicks);
     }
     @Redirect(at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/vertex/PoseStack;mulPose(Lorg/joml/Quaternionf;)V", ordinal = 1), method = "renderSky(Lcom/mojang/blaze3d/vertex/PoseStack;Lorg/joml/Matrix4f;FLnet/minecraft/client/Camera;ZLjava/lang/Runnable;)V")
     private void renderSky$sunriseRotationRemoveVanilla(PoseStack instance, Quaternionf p_254385_) {
 
     }
     @Inject(at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/vertex/PoseStack;mulPose(Lorg/joml/Quaternionf;)V", ordinal = 1), method = "renderSky(Lcom/mojang/blaze3d/vertex/PoseStack;Lorg/joml/Matrix4f;FLnet/minecraft/client/Camera;ZLjava/lang/Runnable;)V")
-    private void renderSky$sunriseRotation(PoseStack p_202424_, Matrix4f p_254034_, float p_202426_, Camera p_202427_, boolean p_202428_, Runnable p_202429_, CallbackInfo ci) {
-        p_202424_.mulPose(Axis.ZP.rotationDegrees((float) SkyUtils.getSunriseColorRotation(level, lastCameraZ, p_202426_)));
+    private void renderSky$sunriseRotation(PoseStack poseStack, Matrix4f p_254034_, float p_202426_, Camera p_202427_, boolean p_202428_, Runnable p_202429_, CallbackInfo ci) {
+        poseStack.mulPose(Axis.ZP.rotationDegrees((float) SkyUtils.getSunriseColorRotation(level, lastCameraZ, p_202426_)));
     }
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/multiplayer/ClientLevel;getMoonPhase()I"), method = "renderSky(Lcom/mojang/blaze3d/vertex/PoseStack;Lorg/joml/Matrix4f;FLnet/minecraft/client/Camera;ZLjava/lang/Runnable;)V")
-    private void renderSky$renderMoon$Pre(PoseStack p_202424_, Matrix4f p_254034_, float p_202426_, Camera p_202427_, boolean p_202428_, Runnable p_202429_, CallbackInfo ci) {
+    private void renderSky$renderMoon$Pre(PoseStack poseStack, Matrix4f p_254034_, float p_202426_, Camera p_202427_, boolean p_202428_, Runnable p_202429_, CallbackInfo ci) {
         if (CommonConfig.moonOrbitType.get() == MoonOrbitType.VANILLA) return;
         assert level != null;
-        p_202424_.mulPose(Axis.XP.rotation(-MoonController.getInstance().getMoonOrbitPosition(level.getDayTime()) * Mth.TWO_PI));
-        p_202424_.mulPose(Axis.YP.rotationDegrees(90));
+        poseStack.mulPose(Axis.XP.rotation(-MoonController.getInstance().getMoonOrbitPosition(level.getDayTime()) * Mth.TWO_PI));
+        poseStack.mulPose(Axis.YP.rotationDegrees(90));
+        //poseStack.mulPose(Axis.XP.rotationDegrees(15));
         int phase = this.level.getMoonPhase();
-        if(phase == 4){
+        if(phase == 4 && !ClientConfig.renderNewMoon.get()){
             RenderSystem.setShaderColor(0,0,0,0);
         }
     }
 
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/multiplayer/ClientLevel;getStarBrightness(F)F"), method = "renderSky(Lcom/mojang/blaze3d/vertex/PoseStack;Lorg/joml/Matrix4f;FLnet/minecraft/client/Camera;ZLjava/lang/Runnable;)V")
-    private void renderSky$renderMoon$Post(PoseStack p_202424_, Matrix4f p_254034_, float p_202426_, Camera p_202427_, boolean p_202428_, Runnable p_202429_, CallbackInfo ci) {
+    private void renderSky$renderMoon$Post(PoseStack poseStack, Matrix4f p_254034_, float p_202426_, Camera p_202427_, boolean p_202428_, Runnable p_202429_, CallbackInfo ci) {
         assert level != null;
-        p_202424_.mulPose(Axis.XP.rotation(MoonController.getInstance().getMoonOrbitPosition(level.getDayTime()) * Mth.TWO_PI));
-        p_202424_.mulPose(Axis.YP.rotationDegrees(-90));
+        poseStack.mulPose(Axis.XP.rotation(MoonController.getInstance().getMoonOrbitPosition(level.getDayTime()) * Mth.TWO_PI));
+        poseStack.mulPose(Axis.YP.rotationDegrees(-90));
+        //poseStack.mulPose(Axis.XP.rotationDegrees(-15));
     }
 
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/multiplayer/ClientLevel;getRainLevel(F)F"), method = "renderSky(Lcom/mojang/blaze3d/vertex/PoseStack;Lorg/joml/Matrix4f;FLnet/minecraft/client/Camera;ZLjava/lang/Runnable;)V")
-    private void renderSky$renderCelestial$Pre(PoseStack p_202424_, Matrix4f p_254034_, float p_202426_, Camera p_202427_, boolean p_202428_, Runnable p_202429_, CallbackInfo ci) {
+    private void renderSky$renderCelestial$Pre(PoseStack p_202424_, Matrix4f p_254034_, float p_202426_, Camera camera, boolean p_202428_, Runnable p_202429_, CallbackInfo ci) {
         if(ClientConfig.latitudeEffects.get() == LatitudeEffects.ALL) {
-            p_202424_.mulPose(Axis.XP.rotationDegrees((float) (-180 * SkyUtils.starLatitudeRotation(level, p_202427_.getPosition().z()))));
+            p_202424_.mulPose(Axis.XP.rotationDegrees((float) (-180 * SkyUtils.starLatitudeRotation(level, camera.getPosition().z()))));
         }
     }
 }

@@ -33,5 +33,11 @@
 	},
 	"suggests": {
 		"forgeconfigscreens": "*"
+	},
+	"custom": {
+		"sodium-extra:options": {
+			"mixin.sky": false,
+			"mixin.sun_moon": false
+		}
 	}
 }
