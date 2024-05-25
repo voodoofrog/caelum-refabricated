@@ -3,7 +3,7 @@
 	"id": "caelum",
 	"version": "${version}",
 	"name": "Caelum Refabricated",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"description": "More realistic (and configurable) celestial bodies movement.",
 	"authors": [
 		"jmb19905"
 	],
@@ -32,7 +32,8 @@
 		"forgeconfigapiport": ">=8.0.0"
 	},
 	"suggests": {
-		"forgeconfigscreens": "*"
+		"forgeconfigscreens": "*",
+		"iris": ">=1.7"
 	},
 	"custom": {
 		"sodium-extra:options": {
